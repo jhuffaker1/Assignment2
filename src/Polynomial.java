@@ -1,16 +1,12 @@
 import java.lang.Comparable;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.*;
 
 
 /*  Used https://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/ as reference for a great deal of this code.
 
  */
-public class Polynomial /*implements Comparable<Polynomial>, Iterable<Polynomial> */ {
+public class Polynomial implements Comparable<Polynomial>/*, Iterable<Polynomial>*/{
     Node head; // the head of the list
-    String unparsedPolynomial;
     ArrayList<Double> inputCoefficients = new ArrayList<Double>();
     ArrayList<Integer> inputExponents= new ArrayList<Integer>();
 
@@ -36,6 +32,17 @@ public class Polynomial /*implements Comparable<Polynomial>, Iterable<Polynomial
             }
         }
     }
+
+
+    @Override
+    public int compareTo(Polynomial p)
+    {
+        return this.inputExponents.get(0).compareTo(p.inputExponents.get(0));
+    }
+//    public int getCoefficients(int arrayPosition){
+//        return this.inputCoefficients.get(arrayPosition);
+//    }
+
     static class Node {
         double coefficient;
         int exponent;
@@ -50,8 +57,7 @@ public class Polynomial /*implements Comparable<Polynomial>, Iterable<Polynomial
         }
 
         // Method to insert a new node
-        public static Polynomial insert(Polynomial list, double nodeCoefficient, int nodeExponent)
-        {
+        public static Polynomial insert(Polynomial list, double nodeCoefficient, int nodeExponent) {
             // Create a new node with given data
             Node new_node = new Node(nodeCoefficient, nodeExponent);
             new_node.next = null;
