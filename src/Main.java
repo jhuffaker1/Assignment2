@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         String myString = "5.6 3 -4 1 8.3 0";
-        String myString2 = "4.0 7";
+        String myString2 = "5.6 3 1 1";
         try {
             Polynomial myPoly = new Polynomial(myString);
             Polynomial myPoly2 = new Polynomial(myString2);
@@ -18,6 +18,7 @@ public class Main {
                 currentData = (PolyNodeData) itr.next();
                 System.out.println(currentData.getCoefficient() + " " + currentData.getExponent());
             }
+            System.out.println(myPoly.compareTo(myPoly2));
         } catch (InvalidPolynomialSyntax e) {
             System.out.println("try again doofus");
         }

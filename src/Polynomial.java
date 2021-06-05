@@ -4,7 +4,7 @@ import java.util.*;
 /*  Used https://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/ as reference for a great deal of this code.
 
  */
-public class Polynomial implements Iterable{
+public class Polynomial implements Iterable, Comparable<Polynomial>{
     Node head = null; // the head of the list
     Node last = null;
 
@@ -73,12 +73,33 @@ public class Polynomial implements Iterable{
         Node next;
     }
 
+    @Override
+    public int compareTo(Polynomial p) {
+        int myReturn = 0;
+        Iterator itrA = this.iterator();
+        Iterator itrB = p.iterator();
+        while(myReturn == 0) {
+            if (itrA.hasNext() && itrB.hasNext()) {
+                PolyNodeData nodeA = (PolyNodeData) itrA.next();
+                PolyNodeData nodeB = (PolyNodeData) itrB.next();
+                myReturn = (nodeA.getExponent() - nodeB.getExponent());
+                if (myReturn == 0) {
+                    if ((nodeA.getCoefficient() - nodeB.getCoefficient()) > 0) {
+                        myReturn = 1;
+                    } else if ((nodeA.getCoefficient() - nodeB.getCoefficient()) < 0) {
+                        myReturn = -1;
+                    } else {
+                        myReturn = 0;
+                    }
+                }
+            } else if (itrA.hasNext()) {
+                myReturn = 1;
+            } else {
+                myReturn = -1;
+            }
+        }
+        return myReturn;
+    }
 }
-
-//    @Override
-//    public int compareTo(Polynomial p)
-//    {
-//        return this.inputExponents.get(0).compareTo(p.inputExponents.get(0));
-//    }
 
 
