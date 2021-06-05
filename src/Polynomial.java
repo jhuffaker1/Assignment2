@@ -1,86 +1,84 @@
-import java.lang.Comparable;
 import java.util.*;
 
 
 /*  Used https://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/ as reference for a great deal of this code.
 
  */
-public class Polynomial implements Comparable<Polynomial>/*, Iterable<Polynomial>*/{
-    Node head; // the head of the list
-    ArrayList<Double> inputCoefficients = new ArrayList<Double>();
-    ArrayList<Integer> inputExponents= new ArrayList<Integer>();
+public class Polynomial implements Iterable{
+    Node head = null; // the head of the list
+    Node last = null;
 
-    public Polynomial(String fileLine) throws InvalidPolynomialSyntax{
+    public Polynomial(String fileLine) throws InvalidPolynomialSyntax {
         String[] myStrArr = fileLine.split(" ");
-        for (int i = 0; i < myStrArr.length; i = i+2) {
+        for (int i = 0; i < myStrArr.length; i = i + 2) {
             try {
-                inputCoefficients.add(Double.parseDouble(myStrArr[i]));
+                this.insert(Double.parseDouble(myStrArr[i]), Integer.parseInt(myStrArr[i + 1]));
             } catch (NumberFormatException e) {
                 throw new InvalidPolynomialSyntax("The coefficent could not be parsed as a double.");
             }
         }
-        for (int i = 1; i < myStrArr.length; i = i+2) {
-            try {
-                inputExponents.add(Integer.parseInt(myStrArr[i]));
-            } catch (NumberFormatException e){
-                throw new InvalidPolynomialSyntax("The exponent could not be parsed as an int.");
-            }
-        }
-        if (inputExponents.size() == inputCoefficients.size()) {
-            for (int i = 0; i < inputExponents.size(); i++) {
+    }
 
-            }
+    public void insert(double coefficient, int exponent) {
+        Node node = new Node();
+        node.data.setCoefficient(coefficient);
+        node.data.setExponent(exponent);
+        node.next = null;
+
+        if (this.head == null) {
+            head = node;
+            last = node;
+
+        } else {
+            last.next = node;
+            last = node;
         }
     }
 
+    public void show() {
+        Node node = head;
+        while (node.next != null) {
+            System.out.print(node.data.getCoefficient() + "x^" + node.data.getExponent() + " ");
+            node = node.next;
+        }
+        System.out.println(node.data.getCoefficient() + "x^" + node.data.getExponent());
+    }
 
     @Override
-    public int compareTo(Polynomial p)
-    {
-        return this.inputExponents.get(0).compareTo(p.inputExponents.get(0));
+    public Iterator iterator() {
+        return new PolynomialIterator();
     }
-//    public int getCoefficients(int arrayPosition){
-//        return this.inputCoefficients.get(arrayPosition);
+
+    class PolynomialIterator implements Iterator {
+        Node current = head;
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+        @Override
+        public PolyNodeData next() {
+            if (current != null) {
+                PolyNodeData currentData = current.data;
+                current = current.next;
+                return currentData;
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
+
+    public static class Node {
+        PolyNodeData data = new PolyNodeData();
+        Node next;
+    }
+
+}
+
+//    @Override
+//    public int compareTo(Polynomial p)
+//    {
+//        return this.inputExponents.get(0).compareTo(p.inputExponents.get(0));
 //    }
 
-    static class Node {
-        double coefficient;
-        int exponent;
-        Node next;
 
-        // Constructor to create a new node
-        // Next is by default initialized
-        // as null
-        Node (double coEff, int exp) {
-            coefficient = coEff;
-            exponent = exp;
-        }
-
-        // Method to insert a new node
-        public static Polynomial insert(Polynomial list, double nodeCoefficient, int nodeExponent) {
-            // Create a new node with given data
-            Node new_node = new Node(nodeCoefficient, nodeExponent);
-            new_node.next = null;
-
-            // If the Linked List is empty,
-            // then make the new node as head
-            if (list.head == null) {
-                list.head = new_node;
-            }
-            else {
-                // Else traverse till the last node
-                // and insert the new_node there
-                Node last = list.head;
-                while (last.next != null) {
-                    last = last.next;
-                }
-
-                // Insert the new_node at last node
-                last.next = new_node;
-            }
-
-            // Return the list by head
-            return list;
-        }
-    }
-}
