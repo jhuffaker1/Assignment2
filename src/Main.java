@@ -8,20 +8,17 @@ public class Main {
         try {
             Polynomial myPoly = new Polynomial(myString);
             Polynomial myPoly2 = new Polynomial(myString2);
-
+            System.out.println(myPoly.toString());
+            System.out.println(myPoly2.toString());
+            //Iterator itr = myPoly.iterator();
+            //PolyNodeData currentData;
+            //while(itr.hasNext()){
+            //    currentData = (PolyNodeData) itr.next();
+            //    System.out.println(currentData.getCoefficient() + " " + currentData.getExponent());
+            //}
             //System.out.println(myPoly.compareTo(myPoly2));
-            myPoly.show();
-            myPoly2.show();
-            Iterator itr = myPoly.iterator();
-            PolyNodeData currentData;
-            while(itr.hasNext()){
-                currentData = (PolyNodeData) itr.next();
-                System.out.println(currentData.getCoefficient() + " " + currentData.getExponent());
-            }
-            System.out.println(myPoly.compareTo(myPoly2));
         } catch (InvalidPolynomialSyntax e) {
             System.out.println("try again doofus");
         }
-
     }
 }
