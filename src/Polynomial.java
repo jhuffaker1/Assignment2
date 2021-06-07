@@ -76,11 +76,11 @@ public class Polynomial implements Iterable, Comparable<Polynomial> {
             if (itrA.hasNext() && itrB.hasNext()) {
                 PolyNodeData nodeA = (PolyNodeData) itrA.next();
                 PolyNodeData nodeB = (PolyNodeData) itrB.next();
-                myReturn = (nodeA.getExponent() - nodeB.getExponent());
+                myReturn = (nodeB.getExponent() - nodeA.getExponent());
                 if (myReturn == 0) {
-                    if ((nodeA.getCoefficient() - nodeB.getCoefficient()) > 0) {
+                    if ((nodeB.getCoefficient() - nodeA.getCoefficient()) > 0) {
                         myReturn = 1;
-                    } else if ((nodeA.getCoefficient() - nodeB.getCoefficient()) < 0) {
+                    } else if ((nodeB.getCoefficient() - nodeA.getCoefficient()) < 0) {
                         myReturn = -1;
                     } else {
                         myReturn = 0;
@@ -93,6 +93,29 @@ public class Polynomial implements Iterable, Comparable<Polynomial> {
             }
         }
         return myReturn;
+    }
+
+    static class WeakOrderChecker implements Comparator<Polynomial> {
+
+        @Override
+        public int compare(Polynomial p1, Polynomial p2) {
+            System.out.println("made it here 001.");
+            int myReturn = 0;
+            Iterator itr1 = p1.iterator();
+            Iterator itr2 = p2.iterator();
+            while (myReturn == 0) {
+                if (itr1.hasNext() && itr2.hasNext()) {
+                    PolyNodeData node1 = (PolyNodeData) itr1.next();
+                    PolyNodeData node2 = (PolyNodeData) itr2.next();
+                    myReturn = node2.getExponent() - node1.getExponent();
+                } else if(itr1.hasNext() && !itr2.hasNext()) {
+                    return -1;
+                } else if(!itr1.hasNext() && itr2.hasNext()) {
+                    return 1;
+                }
+            }
+            return myReturn;
+        }
     }
 
     @Override

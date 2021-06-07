@@ -10,6 +10,9 @@ public class Main {
             Polynomial myPoly2 = new Polynomial(myString2);
             System.out.println(myPoly.toString());
             System.out.println(myPoly2.toString());
+            Polynomial myPolys[] = {myPoly2,myPoly};
+            OrderedList myOrderChecker = new OrderedList();
+            System.out.println("its right here " +myOrderChecker.checkSorted(myPolys));
             //Iterator itr = myPoly.iterator();
             //PolyNodeData currentData;
             //while(itr.hasNext()){
