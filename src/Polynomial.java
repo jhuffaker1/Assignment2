@@ -99,7 +99,6 @@ public class Polynomial implements Iterable, Comparable<Polynomial> {
 
         @Override
         public int compare(Polynomial p1, Polynomial p2) {
-            System.out.println("made it here 001.");
             int myReturn = 0;
             Iterator itr1 = p1.iterator();
             Iterator itr2 = p2.iterator();
@@ -113,10 +112,14 @@ public class Polynomial implements Iterable, Comparable<Polynomial> {
                 } else if(!itr1.hasNext() && itr2.hasNext()) {
                     return 1;
                 }
+                if (!itr1.hasNext() && !itr2.hasNext()) {
+                    break;
+                }
             }
             return myReturn;
         }
     }
+
 
     @Override
     public String toString() {
